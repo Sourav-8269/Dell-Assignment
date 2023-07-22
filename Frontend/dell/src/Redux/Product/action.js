@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as types from "./actionTypes";
 import axios from "axios";
 
@@ -21,9 +21,11 @@ const getError=()=>{
     }
 }
 
-const getData=()=>(dispatch)=>{
+const getData=(token)=>(dispatch)=>{
     dispatch(getRequest())
-    axios.get(`https://dark-ruby-angler.cyclic.app/jobs`)
+    axios.get(`http://localhost:8080/products`,{headers: {
+        'Authorization': `${token}` 
+      }})
     .then((res)=>{
         console.log(res.data)
         dispatch(getSuccess(res.data))

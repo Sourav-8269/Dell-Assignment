@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
 const initState = {
-  user: [],
+  token: JSON.parse(localStorage.getItem("dellUser"))||"",
   isLoading: false,
   isError: false,
 };
@@ -40,7 +40,7 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         isLoading: false,
-        user: payload,
+        token: payload,
       };
     default:
       return state;

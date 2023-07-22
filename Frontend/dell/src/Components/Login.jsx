@@ -46,7 +46,7 @@ export default function Login() {
           console.log(res)
           if(res){
             toast({
-              title: "User Registered",
+              title: "Login Success",
               status: "success",
               duration: 2000,
               isClosable: true,

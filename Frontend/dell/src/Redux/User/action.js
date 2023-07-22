@@ -59,8 +59,13 @@ const userLogin=(payload)=>(dispatch)=>{
     return axios.post(`http://localhost:8080/users/login`,payload)
     .then((res)=>{
         console.log(res.data)
-        dispatch(loginSuccess(res.data.token))
-        return true
+        if(res.data.msg){
+            localStorage.setItem("dellUser",JSON.stringify(res.data.token))
+            dispatch(loginSuccess(res.data.token))
+            return true;
+        }else{
+            return false;
+        }
     })
     .catch((err)=>dispatch(loginError()))
 }

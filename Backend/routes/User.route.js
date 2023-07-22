@@ -20,13 +20,14 @@ userRouter.post("/register",async (req,res)=>{
             try{
                 const user=new UserModel({name,email,pass:secure_password});
                 await user.save();
-                res.send("Registered");
+                res.send(true);
             }catch(err){
                 console.log(err)
+                res.send(false)
             }
         });
     }catch(err){
-        res.send("Something went wrong");
+        res.send(false);
         console.log(err)
     }
 })
@@ -40,17 +41,17 @@ userRouter.post("/login",async (req,res)=>{
             bcrypt.compare(pass, hashed_pass,(err,result)=>{
                 if(result){
                     var token = jwt.sign({ userID:user[0]._id }, process.env.key);
-                    res.send({"msg":"Login Success","token":token});
+                    res.send({"msg":true,"token":token});
 
                 }else{
-                    res.send("Wrong Credentials");
+                    res.send({"msg":false});
                     console.log(err);
                 }
             });
         }
         // console.log(user)
     }catch(err){
-        res.send("Something went wrong");
+        res.send({"msg":false});
         console.log(err)
     }
 })
