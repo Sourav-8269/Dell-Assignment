@@ -1,83 +1,68 @@
-import { useDispatch } from "react-redux";
 import * as types from "./actionTypes";
 import axios from "axios";
 
-const getRequest=()=>{
+const registerRequest=()=>{
     return {
-        type:types.GET_REQUEST
+        type:types.REGISTER_REQUEST
     }
 }
 
-const getSuccess=(data)=>{
+const registerSuccess=()=>{
     return {
-        type:types.GET_SUCCESS,
-        payload:data
+        type:types.REGISTER_SUCCESS
     }
 }
 
-const getError=()=>{
+const registerError=()=>{
     return {
-        type:types.GET_ERROR
+        type:types.REGISTER_ERROR
     }
 }
 
-const getSortedRequest=()=>{
+const loginRequest=()=>{
     return {
-        type:types.GET_SORTED_REQUEST
+        type:types.LOGIN_REQUEST
     }
 }
 
-const getSortedSuccess=(data)=>{
+const loginSuccess=(token)=>{
     return {
-        type:types.GET_SORTED_SUCCESS,
-        payload:data
+        type:types.LOGIN_SUCCESS,
+        payload:token
     }
 }
 
-const getSortedError=()=>{
+const loginError=()=>{
     return {
-        type:types.GET_SORTED_ERROR
+        type:types.LOGIN_ERROR
     }
 }
 
-const generateArray=()=>(dispatch)=>{
-    dispatch(getError())
-    let arr=new Array(10);
-    for(let i=0;i<arr.length;i++){
-      let obj={
-        id:(Math.floor(Math.random()*1000)+500),
-        name:(Math.floor(Math.random() *-100) + 100)
-      }
-      arr[i]=obj
-    }
-    const tempData=[...arr];
-    dispatch(getSuccess(arr))
-    dispatch(sortedArray(tempData))
-    // console.log(arr);
-    // return arr
-  }
+// Get Data form backend
 
-  const setArray=(arr)=>(dispatch)=>{
-    dispatch(getRequest())
-    if(arr.length>0){
-        dispatch(getSuccess(arr));
-    }else{
-        dispatch(getError());
-    }
-  }
+const userRegister=(payload)=>(dispatch)=>{
+    console.log(payload)
+    dispatch(registerRequest())
+    return axios.post(`http://localhost:8080/users/register`,payload)
+    .then((res)=>{
+        console.log(res.data.token)
+        dispatch(registerSuccess())
+        return true;
+    })
+    .catch((err)=>dispatch(registerError()))
+}
 
-  const sortedArray=(data)=>(dispatch)=>{
-    // console.log(data)
-    data.sort((a,b)=>a.name-b.name)
-    // console.log(data)
-    dispatch(getSortedRequest());
-    if(data.length>0){
-        dispatch(getSortedSuccess(data));
-    }else{
-        dispatch(getSortedError());
-    }
-  }
+// Adding Data 
 
+const userLogin=(payload)=>(dispatch)=>{
+    dispatch(loginRequest())
+    return axios.post(`http://localhost:8080/users/login`,payload)
+    .then((res)=>{
+        console.log(res.data)
+        dispatch(loginSuccess(res.data.token))
+        return true
+    })
+    .catch((err)=>dispatch(loginError()))
+}
 
-
-export {getError,getRequest,getSuccess,generateArray,setArray,sortedArray}
+export {userRegister,userLogin}

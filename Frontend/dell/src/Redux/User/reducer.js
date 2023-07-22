@@ -1,7 +1,6 @@
 import * as types from "./actionTypes";
 const initState = {
-  data: [],
-  sortedArray: [],
+  user: [],
   isLoading: false,
   isError: false,
 };
@@ -9,39 +8,39 @@ const initState = {
 const reducer = (state = initState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case types.GET_ERROR:
+    case types.REGISTER_ERROR:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
-    case types.GET_REQUEST:
+    case types.REGISTER_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case types.GET_SUCCESS:
+    case types.REGISTER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         data: payload,
       };
-    case types.GET_SORTED_ERROR:
+    case types.LOGIN_ERROR:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
-    case types.GET_SORTED_REQUEST:
+    case types.LOGIN_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case types.GET_SORTED_SUCCESS:
+    case types.LOGIN_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        sortedArray: payload,
+        user: payload,
       };
     default:
       return state;

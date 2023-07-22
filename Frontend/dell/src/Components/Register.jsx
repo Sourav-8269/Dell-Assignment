@@ -5,7 +5,6 @@ import {
     FormLabel,
     Input,
     InputGroup,
-    HStack,
     InputRightElement,
     Stack,
     Button,
@@ -13,20 +12,21 @@ import {
     Text,
     useColorModeValue,
     Link,
+    useToast,
   } from '@chakra-ui/react';
   import { useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-//   import {store} from "../Redux/store"
-  import axios from "axios"
-//   import { useDispatch, useSelector } from 'react-redux';
-// import { RegisterError, RegisterRequest, RegisterSuccess } from '../Redux/Auth/action';
+  import {store} from "../Redux/store"
+  import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { userRegister } from '../Redux/User/action';
   
   export default function Register() {
+    const toast=useToast();
     // const isAuth=useSelector((state)=>state.AuthReducer.token);
     // console.log(isAuth)
-    // const dispatch=useDispatch();
-    // console.log(store.getState())
+    const dispatch=useDispatch();
+    console.log(store.getState())
     const [showPassword, setShowPassword] = useState(false);
     const [username,setuser]=useState("");
     const [email,setemail]=useState("");
@@ -37,26 +37,46 @@ import { useNavigate } from 'react-router-dom';
         // console.log(username,email,pass)
         let payload={}
         if(username!=""){
-            payload.username=username;
+            payload.name=username;
         }
         if(pass!=""){
-            payload.password=pass;
+            payload.pass=pass;
         }
         if(email!=""){
             payload.email=email;
         }
-        console.log(payload)
-        // dispatch(RegisterRequest())
-        axios.post(`https://mock-server-app-2-3le7.onrender.com/users`,payload)
-        .then((res)=>{
+        if (payload.name&&payload.pass&&payload.email) {
+          dispatch(userRegister(payload)).then((res) => {
             console.log(res)
-            // dispatch(RegisterSuccess(res.data))
-            alert("Register Success");
-            navigate("/login")
-
-        })
-        // .catch((err)=>dispatch(RegisterError()))
-        
+            if(res){
+              toast({
+                title: "User Registered",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+                position: "top",
+              });
+              navigate("/login")
+            }else{
+              toast({
+                title: "Something went wrong!",
+                status: "warning",
+                duration: 2000,
+                isClosable: true,
+                position: "top",
+              });
+            }
+          });
+        }else {
+        toast({
+          position: "top",
+          title: "Empty field",
+          description: "Please fill all the details.",
+          status: "info",
+          duration: 2000,
+          isClosable: true,
+        });
+      } 
     }
   
     return (
@@ -114,7 +134,7 @@ import { useNavigate } from 'react-router-dom';
                 </Button>
               </Stack>
               <Stack pt={6}>
-                <Text align={'center'}>
+                <Text align={'center'} onClick={()=>navigate("/login")}>
                   Already a user? <Link color={'blue.400'}>Login</Link>
                 </Text>
               </Stack>
