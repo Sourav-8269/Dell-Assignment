@@ -10,7 +10,7 @@ app.use(express.json());
 
 const {userRouter}=require("./routes/User.route")
 
-const {notesRouter}=require("./routes/Note.route")
+const {productRouter}=require("./routes/Product.route")
 
 const {authenticate}=require("./middlewares/authenticate.middleware")
 
@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
 
 app.use("/users",userRouter);
 app.use(authenticate);
-app.use("/notes",notesRouter);
+app.use("/products",productRouter);
 
 app.listen(process.env.port,async ()=>{
     try{

@@ -14,11 +14,11 @@ userRouter.use(express.json());
 
 
 userRouter.post("/register",async (req,res)=>{
-    const {name,email,pass,age}=req.body;
+    const {name,email,pass}=req.body;
     try{
         bcrypt.hash(pass, 5, async(err,secure_password)=>{
             try{
-                const user=new UserModel({name,email,pass:secure_password,age});
+                const user=new UserModel({name,email,pass:secure_password});
                 await user.save();
                 res.send("Registered");
             }catch(err){
@@ -53,14 +53,6 @@ userRouter.post("/login",async (req,res)=>{
         res.send("Something went wrong");
         console.log(err)
     }
-})
-
-userRouter.get("/about",(req,res)=>{
-    res.send("About Page")
-})
-
-userRouter.get("/contact",(req,res)=>{
-    res.send("Contact Page")
 })
 
 userRouter.get("/data",(req,res)=>{
