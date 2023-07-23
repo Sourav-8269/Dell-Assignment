@@ -23,6 +23,18 @@ productRouter.post("/add",async (req,res)=>{
     }
 })
 
+productRouter.get("/single/:id",async (req,res)=>{
+    const id=req.params.id
+    try{
+        const product=await ProductModel.findById({_id:id});
+        res.send(product);
+    }catch(err){
+        res.send("Something Went Wrong");
+        console.log(err);
+    }
+})
+
+
 productRouter.patch("/edit/:id",async (req,res)=>{
     const payload=req.body;
     const id=req.params.id;
