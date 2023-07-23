@@ -49,7 +49,6 @@ export default function Login() {
       }
       if (payload.pass&&payload.email) {
         dispatch(userLogin(payload)).then((res) => {
-          console.log(res)
           if(res){
             toast({
               title: "Login Success",
@@ -86,7 +85,8 @@ export default function Login() {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg={useColorModeValue('gray.50', 'gray.800')}
+      mt={["50px","60px"]}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'} textAlign={'center'}>

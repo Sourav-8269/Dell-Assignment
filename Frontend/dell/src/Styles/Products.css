@@ -1,0 +1,15 @@
+#imageDiv{
+    width:400px;
+    height: 300px;
+    max-width: 100%;
+    max-height: 100%;
+}
+@media all and (min-width: 200px) and (max-width: 450px) {
+    #imageDiv{
+        max-width:300px;
+        height: 300px;
+    }
+    #productDiv{
+        max-width:300px;
+    }
+}

@@ -1,6 +1,5 @@
 import {
     Box,
-    chakra,
     Container,
     Stack,
     Text,
@@ -11,32 +10,32 @@ import {
     Heading,
     SimpleGrid,
     StackDivider,
-    useColorModeValue,
-    VisuallyHidden,
     List,
     ListItem,
   } from '@chakra-ui/react';
-  import { MdLocalShipping } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {store} from "./../Redux/store"
 import { useEffect } from 'react';
 import { getSingleData } from '../Redux/Product/action';
   
   function SingleProduct() {
     const params = useParams();
+    const navigate=useNavigate();
     const dispatch=useDispatch();
-    // console.log(params.id)
     const isAuth = useSelector((store) => store.UserReducer.token);
     const data = useSelector((store) => store.ProductReducer.data);
-    console.log(data)
 
     useEffect(() => {
-      dispatch(getSingleData(isAuth,params.id));
+        if(isAuth){
+          dispatch(getSingleData(isAuth,params.id));
+        }else{
+          navigate("/")
+        }
     }, []);
 
     return (
-      <Container maxW={'7xl'}>
+      <Container maxW={'7xl'} mt={["80px","60px"]}>
         {data&&<SimpleGrid
           columns={{ base: 1, lg: 2 }}
           spacing={{ base: 8, md: 10 }}
@@ -135,17 +134,13 @@ import { getSingleData } from '../Redux/Product/action';
               bg={'gray.900'}
               color={"white"}
               textTransform={'uppercase'}
+              onClick={()=>navigate("/home")}
               _hover={{
                 transform: 'translateY(2px)',
                 boxShadow: 'lg',
               }}>
               Go to Home
             </Button>
-  
-            <Stack direction="row" alignItems="center" justifyContent={'center'}>
-              <MdLocalShipping />
-              <Text>2-3 business days delivery</Text>
-            </Stack>
           </Stack>
         </SimpleGrid>}
       </Container>

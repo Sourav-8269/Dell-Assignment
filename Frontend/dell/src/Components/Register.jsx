@@ -51,7 +51,6 @@ import { userRegister } from '../Redux/User/action';
         }
         if (payload.name&&payload.pass&&payload.email) {
           dispatch(userRegister(payload)).then((res) => {
-            console.log(res)
             if(res){
               toast({
                 title: "User Registered",
@@ -88,7 +87,8 @@ import { userRegister } from '../Redux/User/action';
         minH={'100vh'}
         align={'center'}
         justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}>
+        bg={useColorModeValue('gray.50', 'gray.800')}
+        mt={["50px","60px"]}>
         <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
           <Stack align={'center'}>
             <Heading fontSize={'4xl'} textAlign={'center'}>

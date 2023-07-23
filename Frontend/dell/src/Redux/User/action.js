@@ -41,11 +41,9 @@ const loginError=()=>{
 // Get Data form backend
 
 const userRegister=(payload)=>(dispatch)=>{
-    console.log(payload)
     dispatch(registerRequest())
-    return axios.post(`http://localhost:8080/users/register`,payload)
+    return axios.post(`https://important-panama-hat-mite.cyclic.app/users/register`,payload)
     .then((res)=>{
-        console.log(res.data.token)
         dispatch(registerSuccess())
         return true;
     })
@@ -56,9 +54,8 @@ const userRegister=(payload)=>(dispatch)=>{
 
 const userLogin=(payload)=>(dispatch)=>{
     dispatch(loginRequest())
-    return axios.post(`http://localhost:8080/users/login`,payload)
+    return axios.post(`https://important-panama-hat-mite.cyclic.app/users/login`,payload)
     .then((res)=>{
-        console.log(res.data)
         if(res.data.msg){
             localStorage.setItem("dellUser",JSON.stringify(res.data.token))
             dispatch(loginSuccess(res.data.token))

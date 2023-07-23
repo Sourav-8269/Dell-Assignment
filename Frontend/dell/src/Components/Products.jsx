@@ -5,6 +5,7 @@ import { store } from "../Redux/store";
 import { Flex, Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import "./../Styles/Products.css";
 
 function Rating({ rating, numReviews }) {
   return (
@@ -38,20 +39,18 @@ const Products = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((store) => store.UserReducer.token);
   const data = useSelector((store) => store.ProductReducer.data);
-  console.log(store.getState());
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if(isAuth){
+    if (isAuth) {
       dispatch(getData(isAuth));
-    }else{
-      navigate("/")
+    } else {
+      navigate("/");
     }
   }, []);
 
   return (
     <Box>
-      {/* Previous width={["60%","80%"]} for below Box */}
       <Box width="100%" m="auto">
         <SimpleGrid
           minChildWidth="400px"
@@ -59,9 +58,16 @@ const Products = () => {
           marginTop="30px"
           textAlign="center"
         >
-          {data.length > 0 &&
+          {typeof data == "object" &&
+            data.length > 0 &&
             data.map((el) => (
-              <Flex p={50} w="full" alignItems="center" justifyContent="center" key={el._id}>
+              <Flex
+                p={50}
+                w="full"
+                alignItems="center"
+                justifyContent="center"
+                key={el._id}
+              >
                 <Link to={`/products/${el._id}`}>
                   <Box
                     bg={"white"}
@@ -70,13 +76,9 @@ const Products = () => {
                     rounded="lg"
                     shadow="lg"
                     position="relative"
+                    id="productDiv"
                   >
-                    <Box
-                      w="400px"
-                      height="300px"
-                      maxWidth="100%"
-                      maxHeight="100%"
-                    >
+                    <Box id="imageDiv">
                       <Image
                         src={el.image}
                         alt={`Picture of ${data.name}`}
@@ -110,7 +112,7 @@ const Products = () => {
                           <Box as="span" color={"gray.600"} fontSize="lg">
                             ₹
                           </Box>
-                            {" "+el.price}
+                          {" " + el.price}
                         </Box>
                       </Flex>
                     </Box>
