@@ -14,7 +14,7 @@ import {
     Link,
     useToast,
   } from '@chakra-ui/react';
-  import { useState } from 'react';
+  import { useEffect, useState } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
   import {store} from "../Redux/store"
   import { useDispatch, useSelector } from 'react-redux';
@@ -23,16 +23,20 @@ import { userRegister } from '../Redux/User/action';
   
   export default function Register() {
     const toast=useToast();
-    // const isAuth=useSelector((state)=>state.AuthReducer.token);
-    // console.log(isAuth)
+    const isAuth=useSelector((store)=>store.UserReducer.token);
     const dispatch=useDispatch();
-    console.log(store.getState())
     const [showPassword, setShowPassword] = useState(false);
     const [username,setuser]=useState("");
     const [email,setemail]=useState("");
     const [pass,setpass]=useState("");
     const navigate=useNavigate();
     
+    useEffect(()=>{
+      if(isAuth){
+        navigate("/home")
+      }
+     },[])
+
     const register=()=>{
         // console.log(username,email,pass)
         let payload={}

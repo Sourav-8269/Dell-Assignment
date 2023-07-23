@@ -20,17 +20,23 @@ import {store} from "../Redux/store"
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userLogin } from '../Redux/User/action';
+import { useEffect } from 'react';
 
 export default function Login() {
   const toast=useToast();
-  // const isAuth=useSelector((state)=>state.AuthReducer.token);
-  // console.log(isAuth)
+  const isAuth=useSelector((store)=>store.UserReducer.token);
   const dispatch=useDispatch();
-  console.log(store.getState())
   const [showPassword, setShowPassword] = useState(false);
   const [email,setemail]=useState("");
   const [pass,setpass]=useState("");
   const navigate=useNavigate();
+
+ useEffect(()=>{
+  if(isAuth){
+    navigate("/home")
+  }
+ },[])
+
   
   const register=()=>{
       // console.log(username,email,pass)
