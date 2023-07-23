@@ -34,6 +34,20 @@ productRouter.get("/single/:id",async (req,res)=>{
     }
 })
 
+productRouter.get("/search", async (req, res) => {
+    // console.log(req.query.q)
+    try {
+        let data=await ProductModel.find({
+            "$or":[
+                {title:{$regex:req.query.q,$options:"i"}},
+                {description:{$regex:req.query.q,$options:"i"}}
+            ]
+          })
+          res.send(data)
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 productRouter.patch("/edit/:id",async (req,res)=>{
     const payload=req.body;

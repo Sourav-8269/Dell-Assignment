@@ -65,13 +65,11 @@ const filterData=(category)=>(dispatch)=>{
       .catch((err)=>console.log(err));
   }
   
-    const searchData=(search)=>(dispatch)=>{
-      if(search==""){
-        alert("Use Search Box")
-        return;
-      }
+    const searchData=(token,search)=>(dispatch)=>{
       console.log(search)
-      return axios.get(`https://dark-ruby-angler.cyclic.app/jobs/search?q=${search}`)
+      return axios.get(`http://localhost:8080/products/search?q=${search}`,{headers: {
+        'Authorization': `${token}` 
+      }})
         .then((res)=>{
             console.log(res)
             dispatch(getSuccess(res.data))

@@ -4,7 +4,7 @@ import { getData } from "../Redux/Product/action";
 import { store } from "../Redux/store";
 import { Flex, Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Rating({ rating, numReviews }) {
   return (
@@ -39,15 +39,20 @@ const Products = () => {
   const isAuth = useSelector((store) => store.UserReducer.token);
   const data = useSelector((store) => store.ProductReducer.data);
   console.log(store.getState());
+  const navigate=useNavigate();
 
   useEffect(() => {
-    dispatch(getData(isAuth));
+    if(isAuth){
+      dispatch(getData(isAuth));
+    }else{
+      navigate("/")
+    }
   }, []);
 
   return (
-    <Box mt={["20%", "15%", "8%"]}>
+    <Box>
       {/* Previous width={["60%","80%"]} for below Box */}
-      <Box width="100%" m="auto" border={"1px solid red"}>
+      <Box width="100%" m="auto">
         <SimpleGrid
           minChildWidth="400px"
           spacing="20px"
